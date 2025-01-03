@@ -13,7 +13,12 @@ import com.example.myapplication.adapter.GroceryAdapter
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val groceryViewModel: GroceryViewModel by viewModels()
+    //private val groceryViewModel: GroceryViewModel by viewModels()
+
+    private val groceryViewModel: GroceryViewModel by viewModels {
+        GroceryViewModelFactory((application as GroceryApplication).database.groceryDao())
+    }
+
     private lateinit var groceryAdapter: GroceryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +40,8 @@ class MainActivity : AppCompatActivity() {
             val quantity = binding.editTextQuantity.text.toString().toIntOrNull() ?: 0
 
             if (itemName.isNotBlank()) {
-                groceryViewModel.addItem(GroceryItem(name = itemName, quantity = quantity))
+                val item = GroceryItem(name = itemName, quantity = quantity)
+                groceryViewModel.addItem(item)
                 binding.editTextItemName.text.clear()
                 binding.editTextQuantity.text.clear()
             }
