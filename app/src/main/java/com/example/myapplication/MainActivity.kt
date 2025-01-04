@@ -47,6 +47,27 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+
+            //TODO: Implement Contact Activity
+                /*
+                R.id.nav_contacts -> {
+                    val intent = Intent(this, ContactsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                */
+                R.id.nav_delete_all -> {
+                    groceryViewModel.clearAllItems()
+                    true
+                }
+
+                else -> false
+            }
+        }
+
         groceryViewModel.items.observe(this, Observer {
             groceryAdapter.submitList(it)
         })

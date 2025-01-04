@@ -15,7 +15,7 @@
             android:id="@+id/editTextItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Product Name"
+            android:hint="@string/product_name"
             android:inputType="text"
             android:textColor="@color/text_color"
             android:minHeight="48dp" />
@@ -24,7 +24,7 @@
             android:id="@+id/editTextQuantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quantity"
+            android:hint="@string/quantity"
             android:inputType="number"
             android:textColor="@color/text_color"
             android:minHeight="48dp" />
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/background_color"
             android:backgroundTint="@color/button_background"
-            android:text="Add Product"
+            android:text="@string/add_product"
             android:layout_gravity="right" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -43,5 +43,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@color/nav_icon_tint"
+            app:itemTextColor="@color/nav_text_color" />
     </LinearLayout>
 </layout>

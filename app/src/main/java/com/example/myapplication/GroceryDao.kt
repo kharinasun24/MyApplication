@@ -14,4 +14,7 @@ interface GroceryDao {
 
     @Query("SELECT * FROM grocery_items ORDER BY id ASC")
     fun getAllItems(): LiveData<List<GroceryItem>>
+
+    @Query("DELETE FROM grocery_items")
+    suspend fun clearAllItems()
 }

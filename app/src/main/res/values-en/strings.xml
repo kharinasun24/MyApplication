@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Meine App</string>
+    <string name="add_product">Add Product</string>
+    <string name="quantity">Quantity</string>
+    <string name="product_name">Product Name, Sizie / Weight</string>
+    <string name="delete_product">Delete Product</string>
+    <string name="delete_all">alle Löschen</string>
+    <string name="home">Übersicht</string>
+    <string name="contacts">Kontakte</string>
+</resources>

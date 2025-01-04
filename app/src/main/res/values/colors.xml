@@ -5,5 +5,7 @@
     <color name="text_color">#000000</color>
     <color name="background_color">#FFFFFF</color>
     <color name="button_background">#6200EE</color>
+    <color name="nav_icon_tint">#FF9800</color>
+    <color name="nav_text_color">#000000</color>
 </resources>
 
