@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             app:menu="@menu/bottom_nav_menu"
             app:labelVisibilityMode="labeled"
-            app:itemIconTint="@color/nav_icon_tint"
-            app:itemTextColor="@color/nav_text_color" />
+            app:itemTextColor="@color/nav_text_color"
+            android:background="@color/nav_background_color"/>
     </LinearLayout>
 </layout>
