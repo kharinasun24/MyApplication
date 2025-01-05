@@ -1,6 +1,7 @@
 // MainActivity.kt
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -51,16 +52,21 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
 
-            //TODO: Implement Contact Activity
-                /*
+                R.id.nav_home -> {
+                    updateSelectedItemState(item.itemId)
+                    true
+                }
+
                 R.id.nav_contacts -> {
                     val intent = Intent(this, ContactsActivity::class.java)
                     startActivity(intent)
+                    updateSelectedItemState(item.itemId)
                     true
                 }
-                */
+
                 R.id.nav_delete_all -> {
                     groceryViewModel.clearAllItems()
+                    updateSelectedItemState(item.itemId)
                     true
                 }
 
@@ -68,8 +74,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        
+
+
         groceryViewModel.items.observe(this, Observer {
             groceryAdapter.submitList(it)
         })
+    }
+
+    private fun updateSelectedItemState(selectedItemId: Int) {
+        for (i in 0 until binding.bottomNavigationView.menu.size()) {
+            val menuItem = binding.bottomNavigationView.menu.getItem(i)
+            if (menuItem.itemId == selectedItemId) {
+                menuItem.isChecked = true // Der gerade ausgewählte Button bleibt ausgewählt
+            } else {
+                menuItem.isChecked = false // Alle anderen werden deselektiert
+            }
+        }
+
     }
 }
