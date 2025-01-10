@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
 
                 R.id.nav_home -> {
-                    //TODO Hier einen createChooser, dass ich es an alle senden kann.
                     groceryViewModel.items.value?.let { items ->
                         val share = Intent.createChooser(Intent().apply {
                             action = Intent.ACTION_SEND
@@ -91,9 +90,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        
-
-
         groceryViewModel.items.observe(this, Observer {
             groceryAdapter.submitList(it)
         })
@@ -108,6 +104,5 @@ class MainActivity : AppCompatActivity() {
                 menuItem.isChecked = false // Alle anderen werden deselektiert
             }
         }
-
     }
 }

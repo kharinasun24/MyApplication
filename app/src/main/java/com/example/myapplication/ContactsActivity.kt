@@ -79,7 +79,7 @@ class ContactsActivity : AppCompatActivity() {
         val adapter = ContactAdapter(this, contactList)
         listViewContacts.adapter = adapter
 
-        //TODO: Dies wird relevant, wenn ein eigenes Protokoll zur Verfügung steht, um den
+        //TODO: Hier kann eine zusendung der Liste per SMS umgesetzt werden.
         //Kontakt über Namen und Tel. zu kontaktieren.
         /*
         listViewContacts.setOnItemClickListener { _, _, position, _ ->
