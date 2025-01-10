@@ -4,6 +4,7 @@ package com.example.myapplication
 import android.net.Uri
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -57,15 +58,21 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.nav_home -> {
                     groceryViewModel.items.value?.let { items ->
-                        val share = Intent.createChooser(Intent().apply {
-                            action = Intent.ACTION_SEND
+                        if (items.isNotEmpty()) {
+                            val share = Intent.createChooser(Intent().apply {
+                                action = Intent.ACTION_SEND
 
-                            val itemsString = items.joinToString(";") { it.toStringRepresentation() }
-                            putExtra(Intent.EXTRA_TEXT, itemsString)
-                            type = "text/plain"
-                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                        }, null)
-                        startActivity(share)
+                                //Das Problem ist eben, dass beim Teilen dem User die gesamte Liste angezeigt wird...
+                                val itemsString = items.joinToString(";") { it.toStringRepresentation() }
+                                putExtra(Intent.EXTRA_TEXT, itemsString)
+                                type = "text/plain"
+                                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                            }, null)
+                            startActivity(share)
+                        } else {
+
+                            Toast.makeText(this, getString(R.string.nothing_to_share), Toast.LENGTH_SHORT).show()
+                        }
                     }
                     updateSelectedItemState(item.itemId)
                     true

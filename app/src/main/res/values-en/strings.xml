@@ -10,4 +10,5 @@
     <string name="home">Send</string>
     <string name="contacts">Contacts</string>
     <string name="select_contact">Select contact</string>
+    <string name="nothing_to_share">Nothing to share</string>
 </resources>

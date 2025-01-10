@@ -10,4 +10,7 @@
     <string name="sendto">Senden an...</string>
     <string name="delete_all">alle Löschen</string>
     <string name="select_contact">Kontakt wählen</string>
+    <string name="nothing_to_share">Nichts zu teilen</string>
 </resources>
+
+
