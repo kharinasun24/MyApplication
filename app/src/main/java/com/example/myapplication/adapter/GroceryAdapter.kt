@@ -25,6 +25,7 @@ class GroceryAdapter(private val onDelete: (GroceryItem) -> Unit) :
         holder.bind(item)
     }
 
+
     inner class GroceryViewHolder(private val binding: ItemGroceryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

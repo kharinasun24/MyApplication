@@ -5,7 +5,9 @@
     <string name="quantity">Quantity</string>
     <string name="product_name">Product Name, Size / Weight</string>
     <string name="delete_product">Delete Product</string>
+    <string name="sendto">Send to...</string>
     <string name="delete_all">Delete all</string>
-    <string name="home">Home</string>
+    <string name="home">Send</string>
     <string name="contacts">Contacts</string>
+    <string name="select_contact">Select contact</string>
 </resources>

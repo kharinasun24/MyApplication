@@ -1,6 +1,7 @@
 // MainActivity.kt
 package com.example.myapplication
 
+import android.net.Uri
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -11,16 +12,18 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.model.GroceryItem
 import com.example.myapplication.viewmodel.GroceryViewModel
 import com.example.myapplication.adapter.GroceryAdapter
+import com.example.myapplication.database.GroceryApplication
+import com.example.myapplication.viewmodel.GroceryViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    //private val groceryViewModel: GroceryViewModel by viewModels()
 
     private val groceryViewModel: GroceryViewModel by viewModels {
         GroceryViewModelFactory((application as GroceryApplication).database.groceryDao())
     }
 
     private lateinit var groceryAdapter: GroceryAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +56,23 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
 
                 R.id.nav_home -> {
+                    //TODO Hier einen createChooser, dass ich es an alle senden kann.
+                    groceryViewModel.items.value?.let { items ->
+                        val share = Intent.createChooser(Intent().apply {
+                            action = Intent.ACTION_SEND
+
+                            val itemsString = items.joinToString(";") { it.toStringRepresentation() }
+                            putExtra(Intent.EXTRA_TEXT, itemsString)
+                            type = "text/plain"
+                            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        }, null)
+                        startActivity(share)
+                    }
                     updateSelectedItemState(item.itemId)
                     true
                 }
+
+
 
                 R.id.nav_contacts -> {
                     val intent = Intent(this, ContactsActivity::class.java)
