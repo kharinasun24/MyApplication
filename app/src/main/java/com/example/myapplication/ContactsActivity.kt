@@ -79,19 +79,14 @@ class ContactsActivity : AppCompatActivity() {
         val adapter = ContactAdapter(this, contactList)
         listViewContacts.adapter = adapter
 
-        //TODO: Hier kann eine zusendung der Liste per SMS umgesetzt werden.
-        //Kontakt über Namen und Tel. zu kontaktieren.
-        /*
         listViewContacts.setOnItemClickListener { _, _, position, _ ->
             val selectedContact = contactList[position]
             val resultIntent = Intent().apply {
-                putExtra("selected_contact_name", selectedContact.name)
-                putExtra("selected_contact_phone", selectedContact.phoneNumber)
+                putExtra("SELECTED_PHONE_NUMBER", selectedContact.phoneNumber)
             }
             setResult(RESULT_OK, resultIntent)
             finish()
         }
-        */
     }
 
 

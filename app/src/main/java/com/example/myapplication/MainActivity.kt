@@ -112,4 +112,32 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            val phoneNumber = data?.getStringExtra("SELECTED_PHONE_NUMBER")
+
+            groceryViewModel.items.value?.let { items ->
+                if (items.isNotEmpty() && phoneNumber != null) {
+                    val itemsString = items.joinToString(";") { it.toStringRepresentation() }
+
+                    val smsIntent = Intent(Intent.ACTION_SENDTO).apply {
+                        setData(Uri.parse("smsto:$phoneNumber"))  // URI für SMS mit Telefonnummer
+                        putExtra("sms_body", itemsString)       // Nachrichtentext
+                    }
+                    //TODO Dysfunktionalität beim senden von SMS
+                    //if (smsIntent.resolveActivity(packageManager) != null) {
+                        startActivity(smsIntent)
+                    //} else {
+                    //   Toast.makeText(this, getString(R.string.no_sms_app), Toast.LENGTH_SHORT).show()
+                    //}
+                } else {
+                    Toast.makeText(this, getString(R.string.nothing_to_share), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+
 }

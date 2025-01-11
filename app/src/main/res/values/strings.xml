@@ -6,11 +6,12 @@
     <string name="product_name">Produkt-Name, Größe / Gewicht</string>
     <string name="delete_product">Produkt löschen</string>
     <string name="home">Senden</string>
-    <string name="contacts">Kontakte</string>
+    <string name="contacts">Senden (sms)</string>
     <string name="sendto">Senden an...</string>
     <string name="delete_all">alle Löschen</string>
     <string name="select_contact">Kontakt wählen</string>
     <string name="nothing_to_share">Nichts zu teilen</string>
+    <string name="no_sms_app">Senden an sms nicht erfolgreich</string>
 </resources>
 
 
