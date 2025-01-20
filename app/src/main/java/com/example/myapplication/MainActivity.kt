@@ -4,7 +4,10 @@ package com.example.myapplication
 import android.net.Uri
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -17,6 +20,9 @@ import com.example.myapplication.database.GroceryApplication
 import com.example.myapplication.viewmodel.GroceryViewModelFactory
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var contactPickerLauncher: ActivityResultLauncher<Intent>
+
     private lateinit var binding: ActivityMainBinding
 
     private val groceryViewModel: GroceryViewModel by viewModels {
@@ -28,6 +34,47 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        contactPickerLauncher = registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val data: Intent? = result.data
+                val phoneNumber = data?.getStringExtra("SELECTED_PHONE_NUMBER")
+                //Log.d("ContactsActivity", "Selected Phone Number: phoneNumber")
+                // Weitere Verarbeitung hier:
+        //////////////////////////////////////////////////////////////
+
+                //if (resultCode == RESULT_OK) { TODO: Erst testen. Nach dem Testen RESULT_OK ebenfalls überprüft werden.
+
+                groceryViewModel.items.value?.let { items ->
+                    if (items.isNotEmpty() && phoneNumber != null) {
+
+                        val itemsString = items.joinToString(";") { it.toStringRepresentation() }
+
+                        val smsIntent = Intent(Intent.ACTION_SENDTO).apply {
+                            setData(Uri.parse("smsto:$phoneNumber"))  // URI für SMS mit Telefonnummer
+                            putExtra("sms_body", itemsString)            // Nachrichtentext
+                        }
+
+                        if (smsIntent.resolveActivity(packageManager) != null) {
+                            val intent = smsIntent?.toString() ?: "smsIntent ist null"
+                            //Log.d("###################################################################", intent)
+                            startActivity(smsIntent)
+                        } else {
+                            Toast.makeText(this, getString(R.string.no_sms_app), Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(this, getString(R.string.nothing_to_share), Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+        //////////////////////////////////////////////////////////////
+            }
+        }
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,8 +98,6 @@ class MainActivity : AppCompatActivity() {
                 binding.editTextQuantity.text.clear()
             }
         }
-
-
         binding.bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
 
@@ -81,8 +126,10 @@ class MainActivity : AppCompatActivity() {
 
 
                 R.id.nav_contacts -> {
+                    //val intent = Intent(this, ContactsActivity::class.java)
+                    //startActivity(intent)
                     val intent = Intent(this, ContactsActivity::class.java)
-                    startActivity(intent)
+                    contactPickerLauncher.launch(intent)
                     updateSelectedItemState(item.itemId)
                     true
                 }
@@ -113,31 +160,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            val phoneNumber = data?.getStringExtra("SELECTED_PHONE_NUMBER")
-
-            groceryViewModel.items.value?.let { items ->
-                if (items.isNotEmpty() && phoneNumber != null) {
-                    val itemsString = items.joinToString(";") { it.toStringRepresentation() }
-
-                    val smsIntent = Intent(Intent.ACTION_SENDTO).apply {
-                        setData(Uri.parse("smsto:$phoneNumber"))  // URI für SMS mit Telefonnummer
-                        putExtra("sms_body", itemsString)       // Nachrichtentext
-                    }
-                    //TODO Dysfunktionalität beim senden von SMS
-                    //if (smsIntent.resolveActivity(packageManager) != null) {
-                        startActivity(smsIntent)
-                    //} else {
-                    //   Toast.makeText(this, getString(R.string.no_sms_app), Toast.LENGTH_SHORT).show()
-                    //}
-                } else {
-                    Toast.makeText(this, getString(R.string.nothing_to_share), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
 
 }
+
