@@ -7,7 +7,6 @@ import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -44,8 +43,14 @@ class ContactsActivity : AppCompatActivity() {
 
             val selectedContact = contactList[position]
             val resultIntent = Intent().apply {
-                putExtra("selected_contact", selectedContact)
+                putExtra("SELECTED_PHONE_NUMBER", selectedContact.phoneNumber)
             }
+
+            /*
+            Log.d("-------------------------------------------------------------------------",
+                selectedContact.phoneNumber.toString()
+            )
+            */
             setResult(RESULT_OK, resultIntent)
             finish()
 
