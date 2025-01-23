@@ -4,7 +4,6 @@ package com.example.myapplication
 import android.net.Uri
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,16 +42,10 @@ class MainActivity : AppCompatActivity() {
                 var data: Intent? = result.data
                 val phoneNumber = data?.getStringExtra("SELECTED_PHONE_NUMBER")
 
-        /*
-        Log.d("###################################################################",
-        phoneNumber.toString()
-        )
-        */
-
 groceryViewModel.items.value?.let { items ->
     if (items.isNotEmpty() && phoneNumber != null) {
 
-     ///////////////////////////////////////
+
 
         // 1. Items in einen lesbaren String umwandeln, z. B. durch Semikolon getrennt.
         val itemsString = items.joinToString("; ") { it.toStringRepresentation() }
@@ -70,7 +63,6 @@ groceryViewModel.items.value?.let { items ->
             Toast.makeText(this, getString(R.string.no_sms_app), Toast.LENGTH_SHORT).show()
         }
 
-     ///////////////////////////////////////
 
     }
     else {

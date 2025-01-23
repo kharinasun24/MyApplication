@@ -1,24 +1,38 @@
 package com.example.myapplication
 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import com.example.myapplication.model.GroceryItem
+import com.example.myapplication.viewmodel.GroceryViewModel
+import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 
-import org.junit.Assert.*
+class GroceryViewModelTest {
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
+
+    private lateinit var viewModel: GroceryViewModel
+
+    @Before
+    fun setUp() {
+        viewModel = GroceryViewModel(FakeGroceryDao())
+    }
+
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.example.myapplication", appContext.packageName)
+    fun adding_an_item_updates_the_list_correctly() {
+        val item = GroceryItem(name = "Apples", quantity = 3)
+        viewModel.addItem(item)
+
+        val items = viewModel.items.value ?: emptyList()
+        assertEquals(1, items.size)
+        assertEquals(item, items[0])
+    }
+
+    @Test
+    fun deleting_an_item_removes_it_from_the_list() {
+        val item = GroceryItem(name = "Milk", quantity = 1)
+        viewModel.addItem(item)
+        viewModel.deleteItem(item)
+
+        val items = viewModel.items.value ?: emptyList()
+        assertEquals(0, items.size)
     }
 }
